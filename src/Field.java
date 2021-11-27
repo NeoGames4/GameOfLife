@@ -23,7 +23,7 @@ public class Field extends JFrame implements KeyListener, MouseListener, MouseMo
 		field.setVisible(true);
 	}
 	
-	public boolean running = false;
+	public boolean running = false; // If the Game of Life is running
 	public long gen = 0;
 	
 	private int c = 0;
@@ -45,15 +45,15 @@ public class Field extends JFrame implements KeyListener, MouseListener, MouseMo
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		
-		String img =  "                        #\n"
-					+ "                      # #\n"
-					+ "            ##      ##            ##\n"
-					+ "           #   #    ##            ##\n"
-					+ "##        #     #   ##\n"
-					+ "##        #   # ##    # #\n"
-					+ "          #     #       #\n"
-					+ "           #   #\n"
-					+ "            ##\n";
+		String img =          "                        #\n"
+		                    + "                      # #\n"
+		                    + "            ##      ##            ##\n"
+		                    + "           #   #    ##            ##\n"
+		                    + "##        #     #   ##\n"
+		                    + "##        #   # ##    # #\n"
+		                    + "          #     #       #\n"
+		                    + "           #   #\n"
+		                    + "            ##\n";
 		draw(60, 20, img);
 		
 		Executors.newScheduledThreadPool(1).scheduleAtFixedRate(new Runnable() {
@@ -148,26 +148,26 @@ public class Field extends JFrame implements KeyListener, MouseListener, MouseMo
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D)g;
 			
-			g2.setColor(Color.black);
+			g2.setColor(Color.black);									// Background
 			g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 			
-			g2.setColor(new Color(90, 90, 90));
+			g2.setColor(new Color(90, 90, 90));							// Cells
 			try {
 				for(GameOfLife.Cell c : gameOfLife.cells) {
 					g2.fillRect(c.x * tileWidth + offsetX, c.y * tileHeight + offsetY, tileWidth, tileHeight);
 				}
 			} catch(Exception e) {}
-			g2.setColor(Color.gray);
+			g2.setColor(Color.gray);									// Grid
 			for(int i = 0; i<this.getWidth()+tileWidth; i += tileWidth) g2.drawLine(i + offsetX%tileWidth, 0, i + offsetX%tileWidth, this.getHeight());
 			for(int i = 0; i<this.getHeight()+tileHeight; i += tileHeight) g2.drawLine(0, i + offsetY%tileHeight, this.getWidth(), i + offsetY%tileHeight);
 			
-			if(running) {
+			if(running) {												// Indicator
 				g2.setColor(Color.green);
 				g2.setStroke(new BasicStroke(2));
 				g2.drawRect(0, 0, this.getWidth(), this.getHeight());
 			}
 			
-			g2.setColor(Color.white);
+			g2.setColor(Color.white);									// Information
 			String popString = "Population: " + gameOfLife.cells.size();
 			g2.drawString(popString, this.getWidth()-10-g2.getFontMetrics().stringWidth(popString), this.getHeight()-10-2-g2.getFontMetrics().getHeight());
 			String genString = "Generation: " + gen;
